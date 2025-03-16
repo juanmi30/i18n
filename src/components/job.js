@@ -1,14 +1,33 @@
 import React from "react";
+import { FormattedDate, FormattedNumber } from "react-intl";
 
-const Job = (props) => {
+const Job = ({ offer, locale }) => {
+  const formatSalary = (salary) => {
+    if (locale.startsWith("es")) {
+      return salary === 1 ? "1 millón" : `${salary} millones`;
+    }
+    return `${salary} million`;
+  };
+
   return (
     <tr>
-      <th scope="row">{props.offer.id}</th>
-      <td>{props.offer.name}</td>
-      <td>{props.offer.company}</td>
-      <td>{props.offer.salary}</td>
-      <td>{props.offer.city}</td>
-      <td>{props.offer.date}</td>
+      <th scope="row">{offer.id}</th>
+      <td>{offer.name}</td>
+      <td>{offer.company}</td>
+      <td>{formatSalary(offer.salary)}</td>
+      <td>{offer.city}</td>
+      <td>
+        <FormattedDate
+          value={new Date(offer.date)}
+          year="numeric"
+          month="long"
+          day="numeric"
+          weekday="long"
+        />
+      </td>
+      <td>
+        <FormattedNumber value={offer.views} />
+      </td>
     </tr>
   );
 };
